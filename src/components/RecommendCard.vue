@@ -94,22 +94,32 @@ export default {
           rating: false
         });
 
-        var config = {
-          method: 'post',
-          url: 'https://api.lib.byu.edu/leaflet/users/Carson123/ratings',
-          headers: { 
-            'Content-Type': 'application/json'
-          },
-          data : data
-        };
+        // var config = {
+        //   method: 'post',
+        //   url: 'https://api.lib.byu.edu/leaflet/users/Carson123/ratings',
+        //   headers: { 
+        //     'Content-Type': 'application/json'
+        //   },
+        //   data : data
+        // };
 
-        axios(config)
-        .then(function (response) {
-          console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        // axios(config)
+        // .then(function (response) {
+        //   console.log(JSON.stringify(response.data));
+        // })
+        // .catch(function (error) {
+        //   console.log(error);
+        // });
+        axios
+          .post('https://api.lib.byu.edu/leaflet/users/Carson123/ratings', data)
+          .then(response => {
+            console.log(JSON.stringify(response.data));
+          })
+          .catch(error => {
+            console.log(error)
+            this.errored = true
+          })
+          .finally(() => this.loading = false)
 
      }
   }

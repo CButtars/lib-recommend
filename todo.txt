@@ -5,18 +5,18 @@ todo
 -Format as Card
 Make card pretty
     -Image on left
-    Title "Would you read this"
-        Change font, color
-        add padding
-    Media title, author, book, text - different fonts/text
-    fonts should be responsive (em?) not static, px (To a limited degree)
+    -Title "Would you read this"
+        -Change font, color
+        -add padding
+    -Media title, author, book, text - different fonts/text
+    Xfonts should be responsive (em?) not static, px (To a limited degree)
 
 
-    Reduce padding a bit on card
-    align description, media title, author, and type to left
+    -Reduce padding a bit on card
+    -align description, media title, author, and type to left
 
-Add response buttons (Yes, No)
+-Add response buttons (Yes, No)
 
-Add transitions to new question after each 
+-Add transitions to new question after each 
 
 Look through and update/edit comments

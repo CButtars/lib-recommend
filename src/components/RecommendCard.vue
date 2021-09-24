@@ -11,16 +11,17 @@
       <!-- Show the actual card -->
       <b-card v-else 
         no-body 
-        class="overflow-hidden padded" 
+        class="overflow-hidden padded border" 
         style="width: 640px;"
         header-tag="header"
+        header-bg-variant="white"
         footer-tag="footer"
       >
 
         <!-- Header section -->
         <template #header>
-          <section v-if="mediaData.type=='BOOK'"><h1>Would you read this?</h1></section>
-          <section v-else><h1>Would you watch this?</h1></section>
+          <section v-if="mediaData.type=='BOOK'"><h4 class="header-font title-font">Would you read this?</h4></section>
+          <section v-else><h4 class="header-font title-font">Would you watch this?</h4></section>
         </template>
 
         <!-- Card Content -->
@@ -35,13 +36,20 @@
           </b-col>
           <!-- Text on right -->
           <b-col md="9"  class="padded align-left">
-            <b-card-body :title="mediaData.title">
+            <b-card-body >
+              <!-- title -->
+              <b-card-title class="title-font">
+                {{ mediaData.title }}
+              </b-card-title>
+              <!-- author -->
               <p v-if="mediaData.type=='BOOK'" class="media-author">{{ mediaData.author}}</p>
-              <p class="media-type">
+              <!-- media type -->
+              <p class="media-type title-font">
                 <b-icon v-if="mediaData.type=='BOOK'" icon="book-fill"></b-icon> 
                 <b-icon v-else icon="film"></b-icon> 
                 {{ mediaData.type }}
               </p>
+              <!-- description -->
               <b-card-text>
                 {{ mediaData.description }}
               </b-card-text>
@@ -50,14 +58,16 @@
         </b-row>
 
         <!-- Buttons on bottom -->
-        <b-row no-gutters align-v="center">
+        <b-row no-gutters align-v="center" class="mb-2">
           <b-col></b-col>
+          <!-- No Button -->
           <b-col md="3">
             <b-button block variant="danger" @click="ButtonPressed($event, false)">
             <b-icon icon="x"></b-icon> No
             </b-button>
           </b-col>
           <b-col md="1"></b-col>
+          <!-- Yes Button -->
           <b-col md="3">
             <b-button block variant="success" @click="ButtonPressed($event, true)">
               <b-icon icon="check2"></b-icon> Yes
@@ -71,7 +81,6 @@
 </template>
 
 <script>
-import leaflet from '../services/api/leaflet.js'
 import axios from 'axios'
 
 export default {
@@ -80,8 +89,7 @@ export default {
   },
   data: function() {
       return {
-        mediaData: "This is just some test text",
-        test: "empty",
+        mediaData: "",
         loading: true,
         errored: false
       }
@@ -100,6 +108,10 @@ export default {
       .finally(() => this.loading = false)
   },
   methods : {
+    /** ButtonPressed triggers upon pressing the Yes or No buttons
+     * POSTs to API with needed data (user id, item id, t/f consume media)
+     * Then informs parent of completion with card ($emit)
+     */
       ButtonPressed(event, dat) {
         let self = this;
 
@@ -119,7 +131,6 @@ export default {
 
         axios(config)
         .then(function (response) {
-          console.log(JSON.stringify(response.data));
           self.$emit('clicked', response.data);
         })
         .catch(function (error) {
@@ -131,35 +142,37 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Fancy styling for fancy apps -->
 <style scoped>
-.padded {
-  padding-left: 12px;
-  padding-right: 12px;
-  padding-top: 0px;
-  padding-bottom: 12px;
-}
-.align-left {
-  text-align: left;
-}
-.align-right {
-  text-align: right;
-}
-.media-description {
-  font-size: 10px;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.media-author {
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  color:dimgrey;
-  font-size: 14px;
-}
-.media-type {
-  color: mediumaquamarine;
-  font-size: 14px;
-}
+  .align-left {
+    text-align: left;
+  }
+  .align-right {
+    text-align: right;
+  }
+  .border-3 {
+    border-width: 5px !important;
+    border-color: #4b4d4e;
+  }
+  .header-font {
+    color: #778189;
+  }
+  .media-description {
+    font-size: 10px;
+  }
+  .media-author {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color:dimgrey;
+    font-size: 14px;
+  }
+  .media-type {
+    color: mediumaquamarine;
+    font-size: 14px;
+  }
+  .padded {
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 0px;
+    padding-bottom: 12px;
+  }
 </style>
